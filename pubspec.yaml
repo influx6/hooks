@@ -1,0 +1,5 @@
+name: hooks
+description: a low-level api for hooking into your objects
+dependencies:
+        unittest: any
+
