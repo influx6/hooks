@@ -22,7 +22,7 @@ abstract class HookStackAbstract{
    * Description: lets you redirect the call of noSuchMethod so you can easily customize to needs, for eg, i use it to define
    * a ghost exec method that doesnt exists,instead when called,its redirected to _call
    * */
-  Object noSuchMethodHandler(Invocation m);
+  Object noSuchMethodHandler(Invocation m); 	
 
   Object noSuchMethod(Invocation n){
  	 return this.noSuchMethodHandler(n);
@@ -48,3 +48,25 @@ abstract class HookControllerAbstract{
   void flushAll();
 
 }
+
+abstract class HookDynamic{
+	final ds.dsMapStorage<Symbol,dynamic> injected = new ds.dsMapStorage<Symbol,dynamic>();
+	
+	void define();
+	void get();
+	dynamic noSuchMethodCaller(Invocation n);
+	
+	Symbol generateName(String n){
+		return new Symbol(n);
+	}
+	
+	String getPureName(Symbol n){
+		return MirrorSystem.getName(n);
+	}
+		
+	dynamic noSuchMethodError(Invocation n){
+		this.noSuchMethodCaller(n);
+	}
+}
+
+

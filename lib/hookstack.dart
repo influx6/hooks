@@ -30,9 +30,11 @@ class ParamBeautifier{
 
 class _MutableHookStack extends HookStack{
   final bool canMutate = true;
+  dynamic _callParams;
   
   Future _call(params){
     var cur = null;
+	this._callParams = params;
     var done = new Completer();
 
     if(this._executors.isEmpty){
@@ -67,13 +69,19 @@ class _MutableHookStack extends HookStack{
       }
     }
   }
+  
+  dynamic get feed{
+	  return this._callParams;
+  }
 
 }
 
 class _ImmutableHookStack extends HookStack{
   final bool canMutate = false;
+  dynamic _callParams;
   
   Future _call(params){
+	  this._callParams = params;u7
       var done = new Completer();
       if(this._executors.isEmpty){
         done.complete(params);
@@ -93,6 +101,10 @@ class _ImmutableHookStack extends HookStack{
 
   Object _handleFeed(feed){
     return feed;
+  }
+  
+  dynamic get feed{
+	  return this._callParams;
   }
 
 }

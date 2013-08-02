@@ -3,7 +3,9 @@ library hooks;
 import 'dart:async';
 import 'dart:collection';
 import 'dart:mirrors';
-import 'packages:ds';
+// import 'dart:_collection-dev' as dev;
+// import 'dart:_js_mirror' as jsmirror;
+import 'package:ds/ds.dart' as ds;
 
 part 'hookabstract.dart';
 part 'hookstack.dart';

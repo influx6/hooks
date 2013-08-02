@@ -15,11 +15,11 @@ class HookController extends HookControllerAbstract{
   dynamic postStack;
   Function _handle;
 
-  static dynamic create(Function handle,{mutate:false,pre:true,post:true}){
+  static dynamic create(Function handle,{bool mutate:false,bool pre:true, bool post:true}){
 	return new HookController(handle,mutate:mutate,pre:pre,post:post);
   }
 
-  HookController(Function handle,{mutate:false,pre:true,post:true}){
+  HookController(Function handle,{ bool mutate:false, bool pre:true, bool post:true}){
     postStack = post ? HookStack.create(mutate) : null;
     preStack = pre ? HookStack.create(mutate) : null;
     this._handle = handle;

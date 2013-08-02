@@ -1,8 +1,7 @@
-library Specs;
+part of specs;
 
-import 'package:hooks/hooks.dart';
 
-main(){
+contoller(){
 	
 	var controller = HookController.create((name,{sex:null}){
 		return [[name],{'sex':sex}];

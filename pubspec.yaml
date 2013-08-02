@@ -1,5 +1,8 @@
 name: hooks
+version: 0.0.1
+author: Alexander Adeniyi Ewetumo
 description: a low-level api for hooking into your objects
 dependencies:
-        unittest: any
+ ds:
+  path: ../ds
 

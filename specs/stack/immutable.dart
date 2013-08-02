@@ -1,8 +1,6 @@
-library Specs;
+part of specs;
 
-import 'package:hooks/hooks.dart';
-
-main(){
+immutable(){
 
   var m = HookStack.create(false);
   var m1 = HookStack.create(false);

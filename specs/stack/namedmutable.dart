@@ -1,8 +1,6 @@
-library Specs;
+part of specs;
 
-import 'package:hooks/hooks.dart';
-
-main(){
+named(){
   var m = HookStack.create(true);
 
   m.add((keys,{String name:null}){
