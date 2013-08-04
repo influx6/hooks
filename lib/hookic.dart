@@ -1,53 +1,53 @@
 part of hooks;
 
-class DynamicAttributes extends HookDynamic{
+class DropGenerator extends DynamicGenerator{
 	
-	static create(){ 
-		return new DynamicAttributes();
-	}
+	static create(n,d,c) => new DropGenerator(n,d,c);
 	
-	void define(dynamic key,dynamic value){
-		this.injected.add(this.generateName(key),value);
-	}
+	DropGenerator(name,deps,criteria): super(name,deps,criteria);
 	
-	dynamic get(dynamic key){
-		return this.injected.get(this.generateName(key));
-	}
-	
-	dynamic noSuchMethodCaller(Invocatio n){
-		if(this.injected.has(n.memberName)){
-			return this.injected.get(n.memberName);
-		}
-	}
-		
 }
 
-class DropICController{
-	final injected = ds.dsStorage.createMap();
-	final attr = ds.dsStorage.createMap();
+class DropController extends DynamicController{
 	
 	static create(){
-		return new DropICController();
+		return new DropController();
+	}
+		
+	DropController();
+	
+	void define(String ruleName,{ Map dependency:null, Function criteria:null }){
+		if(this.generators.has(this.cache.create(ruleName)))
+			 throw "Generators Name: $ruleName is already used!"; 
+		if(dependency == null) dependency = {'named':{},'positional':[]};
+		this.generators.add(this.cache.create(ruleName),DropGenerator.create(ruleName,dependency,criteria));
 	}
 	
-	void add(dynamic instance,{String tag:null}){
-		try{
-			var mirror = reflect(instance);	
-			var id = (tag == null) ? this.injected.store.length : tag; 
-			this.injected.add(id,{'mirror':mirror, 'instance':instance});
-		}
-		catch(e){
-			throw e;
-		}
+	void provide(String tag,Function generator){
+		if(this.providers.has(this.cache.create(tag))) 
+			throw "Provider $tag already provided!";
+		this.providers.add(this.cache.create(tag),generator);
 	}
 	
-	void defineAttr(dynamic attr,dynamic value){
+	dynamic generate(String tag){
+		return null;
+	}
+	
+	dynamic dropHandler(Invocation n){
 	
 	}
 	
-	Object noSuchMethod(Invocation n){
-		print(n.memberName);
+	Future assertDependencies(List positional,Map named){
+		var fpos = Hub.forEachFuture(positional,(n){
+			print('positional:$n');
+			return (this.providers.has(n));
+		});
+		var fnamed = Hub.forEachFuture(named,(n){
+			print('named:$n');
+			return (this.providers.has(n));
+		});
 	}
+
 }
 	
 @deprecated
@@ -73,10 +73,11 @@ class MirrorICController {
 		var sid = this.interface.get(id);
 		if(sid == null) throw new Exception('Identifier $id is not valid!');
 
-		var mirror = reflect(face);
+		var instance = reflect(face);
+		var instanceClass = instance.type;
 		var seed = sid.get('class');
-		var classmirror = sid.get('mirror');
-		
+		var seedClass = sid.get('mirror');
+				
 	}
 	
 }

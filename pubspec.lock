@@ -7,3 +7,15 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  hub:
+    description:
+      path: "/Users/boxy/Apps/codelab/dart/hooks/../hub"
+      relative: true
+    source: path
+    version: "0.0.1"
+  invocable:
+    description:
+      path: "/Users/boxy/Apps/codelab/dart/hooks/../invocable"
+      relative: true
+    source: path
+    version: "0.0.1"

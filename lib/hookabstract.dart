@@ -42,7 +42,6 @@ abstract class HookInverseControlAbstract{
 
 abstract class HookControllerAbstract{
   
-
   void _call();
   void disposeAll();
   void flushAll();
@@ -55,18 +54,52 @@ abstract class HookDynamic{
 	void define();
 	void get();
 	dynamic noSuchMethodCaller(Invocation n);
-	
-	Symbol generateName(String n){
-		return new Symbol(n);
-	}
-	
-	String getPureName(Symbol n){
-		return MirrorSystem.getName(n);
-	}
 		
 	dynamic noSuchMethodError(Invocation n){
 		this.noSuchMethodCaller(n);
 	}
 }
 
+abstract class DynamicGenerator{
+	String name;
+	Function criteria;
+	List positionalArguments;
+	Map<Symbol,dynamic> namedArguments;
+	
+	DynamicGenerator(String name,Map dependency,Function criteria){
+		this.name = name;
+		this.namedArguments = Hub.encryptNamedArguments(dependency['named']);
+		this.positionalArguments = dependency['positional'];
+		this.criteria = criteria;
+	}
+	
+	bool matchProvider(Object provider){
+		return this.criteria(provider);
+	}
+	
+	String toString(){
+		return """
+			Name: ${this.name}
+			PositionalArguments: ${this.positionalArguments}
+			NamedArguments:${this.namedArguments}
+		""";
+	}
+}
 
+abstract class DynamicController{
+	final cache = Hub.createSymbolCache();
+	final generators = InvocationMap.create();
+	final providers = InvocationMap.create();
+	
+	void define(String ruleName,{ Map dependency:null, Function criteria:null });
+	
+	void provide(String tag,Function generator);
+	
+	dynamic generate();
+	
+	dynamic dropHandler(Invocation n);
+	
+	Object noSuchMethod(Invocation n){
+		return this.dropHandler(n);
+	}
+}
