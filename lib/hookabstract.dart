@@ -30,22 +30,30 @@ abstract class HookStackAbstract{
   
 }
 
-abstract class HookInverseControlAbstract{
-  
-  /*
-   * Name: [inject]
-   * Description: takes an object to be injected into the controller as dependency
-   * */
-  void inject(Object o);
-  
-}
-
 abstract class HookControllerAbstract{
   
   void _call();
   void disposeAll();
   void flushAll();
 
+}
+
+abstract class InverseControllerAbstract{
+	
+	void define(String rule,String interface,[Map dependency]);
+	
+	void provide(String tag,String generator);
+	
+	dynamic generate();
+	
+	dynamic dropHandler(Invocation n);
+	
+}
+
+abstract class InverseManagerAbstract{
+	void createController();
+	void getController();
+	void destroyController();
 }
 
 abstract class HookDynamic{
@@ -60,46 +68,3 @@ abstract class HookDynamic{
 	}
 }
 
-abstract class DynamicGenerator{
-	String name;
-	Function criteria;
-	List positionalArguments;
-	Map<Symbol,dynamic> namedArguments;
-	
-	DynamicGenerator(String name,Map dependency,Function criteria){
-		this.name = name;
-		this.namedArguments = Hub.encryptNamedArguments(dependency['named']);
-		this.positionalArguments = dependency['positional'];
-		this.criteria = criteria;
-	}
-	
-	bool matchProvider(Object provider){
-		return this.criteria(provider);
-	}
-	
-	String toString(){
-		return """
-			Name: ${this.name}
-			PositionalArguments: ${this.positionalArguments}
-			NamedArguments:${this.namedArguments}
-		""";
-	}
-}
-
-abstract class DynamicController{
-	final cache = Hub.createSymbolCache();
-	final generators = InvocationMap.create();
-	final providers = InvocationMap.create();
-	
-	void define(String ruleName,{ Map dependency:null, Function criteria:null });
-	
-	void provide(String tag,Function generator);
-	
-	dynamic generate();
-	
-	dynamic dropHandler(Invocation n);
-	
-	Object noSuchMethod(Invocation n){
-		return this.dropHandler(n);
-	}
-}
