@@ -56,15 +56,4 @@ abstract class InverseManagerAbstract{
 	void destroyController();
 }
 
-abstract class HookDynamic{
-	final ds.dsMapStorage<Symbol,dynamic> injected = new ds.dsMapStorage<Symbol,dynamic>();
-	
-	void define();
-	void get();
-	dynamic noSuchMethodCaller(Invocation n);
-		
-	dynamic noSuchMethodError(Invocation n){
-		this.noSuchMethodCaller(n);
-	}
-}
 

@@ -1,7 +1,7 @@
 part of specs;
 
 
-contoller(){
+controller(){
 	
 	var controller = HookController.create((name,{sex:null}){
 		return [[name],{'sex':sex}];

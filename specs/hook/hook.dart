@@ -3,7 +3,6 @@ library hookspec;
 import 'dart:mirrors';
 import 'fixtures.dart';
 import 'package:hub/hub.dart';
-import 'package:ds/ds.dart' as ds;
 import 'package:hooks/hooks.dart' as hook;
 
 main(){
@@ -12,6 +11,9 @@ main(){
 	var cal = fix.getClass('Calculator');
 	var match = fix.matchClassWithInterface('Calculator','CalculatorInterface');
 	
+	//checks supports for named arguments,if false then its still not resolved by dart team
+	assert(Hub.classMirrorInvokeNamedSupportTest() == false);
+
 	//you can optionally supply a library name from which it can retrieve class by strings
 	// when calling the define and provide methods
 	var dc = hook.InverseController.create('fixtures');

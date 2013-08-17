@@ -27,7 +27,7 @@ class ParamBeautifier{
 
     static create(List p){
 		return new ParamBeautifier(p);
-	}
+  }
 	
     ParamBeautifier(List p){
       if(p.length > 1) p[1] = Hub.encryptNamedArguments(p[1]);
@@ -52,12 +52,15 @@ class ParamBeautifier{
 
 class _MutableHookStack extends HookStack{
   final bool canMutate = true;
+  final List retStack = new List();
   dynamic _callParams;
   
   Future _call(params){
     var cur = null;
-	this._callParams = params;
+    this._callParams = params;
     var done = new Completer();
+
+    this.retStack.clear();
 
     if(this._executors.isEmpty){
       done.complete(params);
@@ -66,7 +69,12 @@ class _MutableHookStack extends HookStack{
 
     this._executors.forEach((n){
         if(cur == null) cur = n(params);
-        else cur = cur.then(n);
+        else cur = cur.then((w){
+          if(w != null){
+            this.retStack.add(w);
+            return n(w);
+          }else return n(this.retStack.last);
+        });
     });
     
     cur.then((param){
@@ -152,7 +160,7 @@ class HookStack extends HookStackAbstract{
     };
 
 	if(tag != null){
-		if(this._cache.containsKey(tag)) throw new Error('Tag already used!');	
+		if(this._cache.containsKey(tag)) throw new Exception('Tag already used!');	
 		this._cache[tag] = this._executors.length;	
 	}
 	

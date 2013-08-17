@@ -16,14 +16,18 @@ named(){
   },tag:'merger');
 
   m.add((keys,{String name: null}){
+    print('got: $keys : $name but not returning anything');
+  },tag:'noreturner');
+
+  m.add((keys,{String name: null}){
     print('got: $keys : $name');
       return [[keys],{'name':name}];
   },tag:'printer');
 
-
   m.exec([1,2,323,23223,2],name:'alex').then((param){
-		var m = new ParamBeautifier(param);
-		print('execution finished: ${m.positional} and with keys ${m.named}');
+		var mm = new ParamBeautifier(param);
+		print('execution finished: ${mm.positional} and with keys ${mm.named}');
+            print('returned stack: ${m.retStack}');
   });
   m.flush();
 }
