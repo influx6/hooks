@@ -1,6 +1,8 @@
-part of specs;
+library specs;
 
-mutable(){  
+import 'package:hooks/hooks.dart';
+
+main(){
   var m = HookStack.create(true);
   var m1 = HookStack.create(true);
 
@@ -21,13 +23,13 @@ mutable(){
 
   m1.add((name){
 	print('prefixing: $name');
-	var pre = "Mr. ".concat(name);
+	var pre = "Mr. "+(name);
     return pre;
   });
 
   m1.add((name){
 	 print('suffixing: $name');
-	 var suf = name.concat(" hoostack!");
+	 var suf = name+(" hoostack!");
      return suf;
   });
 
@@ -37,6 +39,6 @@ mutable(){
   });
 
   m.exec([12,43,1,3,4,435,2]);
-  m1.callHook([["alex"]]).then((m){ print("$m"); });
-
+  m1.callHook("alex").then((m){ print("$m"); });
+  m1.exec("john").then((m){ print("Hello: $m"); });
 }

@@ -1,13 +1,13 @@
 name: hooks
-version: 0.1.0
+version: 0.2.0
 author: Ewetumo Alexander Adeniyi <trinoxf@gmail.com>
 homepage: https://github.com/influx6/hooks
 description: a low-level api for hooking into your objects
-dependencies:
- hub: any
- invocable: any
-# dev_dependencies:
-#  hub:  
-#    path: ../hub
-#  invocable: 
-#     path: ../invocable
+#dependencies:
+#  invocable: any
+#  hooks: any
+dev_dependencies:
+  invocable:
+    path: ../invocable
+  hub:
+    path: ../hub

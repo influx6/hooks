@@ -3,13 +3,13 @@
 packages:
   hub:
     description:
-      path: "/Users/boxy/Apps/codelab/dart/hooks/../hub"
+      path: "D:\\Apps\\codelab\\dart\\hooks\\../hub"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.3"
   invocable:
     description:
-      path: "/Users/boxy/Apps/codelab/dart/hooks/../invocable"
+      path: "D:\\Apps\\codelab\\dart\\hooks\\../invocable"
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.3.0"
